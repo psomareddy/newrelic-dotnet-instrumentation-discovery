@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <RootNamespace>Custom.Tracer.Factories.Diag</RootNamespace>
+    <AssemblyName>Custom.Tracer.Factories.Diag</AssemblyName>
+    <Authors>Prakash Reddy</Authors>
+    <Company>New Relic Inc</Company>
+    <PackageId>Custom.Tracer.Factories.Diag</PackageId>
+    <Product>Custom.Tracer.Factories.Diag</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NewRelic.Agent.Extensions" Version="8.15.455" />
+  </ItemGroup>
+
+  <!-- Target post build for net461 does not seem to run-->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(TargetFramework)' == 'net461' ">
+    <Message Text="Running target 461..." Importance="High"/>
+    <Exec Command="copy  $(ProjectDir)Instrumentation.xml C:\ProgramData\New Relic\.NET Agent\Extensions\$(TargetName).xml&#xD;&#xA;&#xD;&#xA;copy  $(ProjectDir)Instrumentation.xml C:\ProgramData\New Relic\.NET Agent\Extensions\$(TargetName).xml" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <Message Text="Running target netstandard2.0..." Importance="High"/>
+    <Exec Command="copy $(ProjectDir)bin\$(ConfigurationName)\netstandard2.0\$(TargetFileName) C:\nrcoreagent\extensions\&#xD;&#xA;&#xD;&#xA;copy  $(ProjectDir)Instrumentation.xml C:\nrcoreagent\extensions\$(TargetName).xml" />
+  </Target>
+
+</Project>

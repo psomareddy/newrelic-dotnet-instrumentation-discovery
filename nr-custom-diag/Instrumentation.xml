@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<extension xmlns="urn:newrelic-extension">
+  <instrumentation>
+    <tracerFactory name="Custom.Tracer.Factories.DiagTracerFactory">
+      <match assemblyName="TestingConsoleApp" className="TestingConsoleApp.SampleOrderProcessor">
+        <exactMethodMatcher methodName="execute" />
+      </match>
+    </tracerFactory>
+  </instrumentation>
+</extension>
